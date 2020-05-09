@@ -7,10 +7,6 @@ namespace M.Repository.Context
 {
     public partial class MovieBaseDbContext : DbContext
     {
-        public MovieBaseDbContext()
-        {
-        }
-
         public MovieBaseDbContext(DbContextOptions options)
             : base(options)
         {
@@ -25,22 +21,20 @@ namespace M.Repository.Context
         public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<UserRoleRelation> UserRoleRelation { get; set; }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-        //        optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Movie;Integrated Security=True");
-        //    }
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                //optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Movie;Integrated Security=True");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<MovieAttributes>(entity =>
             {
                 entity.HasKey(e => e.AttributesId);
-
-                entity.Property(e => e.AttributesId).ValueGeneratedNever();
 
                 entity.Property(e => e.Alias).HasMaxLength(64);
 
@@ -56,9 +50,7 @@ namespace M.Repository.Context
                 entity.HasKey(e => e.MovieId)
                     .HasName("PK_Movie");
 
-                entity.Property(e => e.MovieId)
-                    .HasComment("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.MovieId).HasComment("id");
 
                 entity.Property(e => e.Actor)
                     .HasMaxLength(512)
@@ -136,8 +128,6 @@ namespace M.Repository.Context
             {
                 entity.HasKey(e => e.CommentId);
 
-                entity.Property(e => e.CommentId).ValueGeneratedNever();
-
                 entity.Property(e => e.Content).HasMaxLength(512);
 
                 entity.Property(e => e.CreatedAt)
@@ -162,8 +152,6 @@ namespace M.Repository.Context
 
             modelBuilder.Entity<MovieImages>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
@@ -181,8 +169,6 @@ namespace M.Repository.Context
 
             modelBuilder.Entity<SystemConfigMenu>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");

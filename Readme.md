@@ -3,10 +3,10 @@
 ### 迁移
 ```
 # migration database
-Add-Migration m_init_2020 -OutputDir DbMigration\Movie -Project M.Repository -StartupProject M.ServiceAPI -Context MovieDBContext
+Add-Migration m_init_2020 -OutputDir DbMigration\Movie -Project M.Repository -StartupProject M.ServiceAPI -Context MovieBaseDbContext
 
 # update database
-Update-Database m_init_2020 -StartupProject M.ServiceAPI -Project M.ServiceAPI -Context MovieDBContext
+Update-Database m_init_2020 -StartupProject M.ServiceAPI -Project M.ServiceAPI -Context MovieBaseDbContext
 ```
 
 ### 反向工程
@@ -37,7 +37,7 @@ Options:
 
 ### DOME
 ```
-dotnet ef dbcontext scaffold 'Data Source=.;Initial Catalog=Movie;Integrated Security=True' Microsoft.EntityFrameworkCore.SqlServer --context MovieDBContext --context-dir Context --output-dir Entity --startup-project M.ServiceAPI
+dotnet ef dbcontext scaffold 'Data Source=.;Initial Catalog=Movie;Integrated Security=True' Microsoft.EntityFrameworkCore.SqlServer --context MovieBaseDbContext --context-dir Context --output-dir Entity --startup-project M.ServiceAPI
 
-dotnet ef dbcontext scaffold "Data Source=.;Initial Catalog=Movie;Integrated Security=True" Microsoft.EntityFrameworkCore.SqlServer -c MovieDBContext --context-dir Context -o Entity -s M.ServiceAPI -p M.Repository
+dotnet ef dbcontext scaffold "Data Source=.;Initial Catalog=Movie;Integrated Security=True" Microsoft.EntityFrameworkCore.SqlServer -c MovieBaseDbContext --context-dir Context -o Entity -s M.ServiceAPI -p M.Repository
 ```

@@ -35,7 +35,7 @@ namespace M.Nunit
         [Test]
         public void Add()
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 10; i < 20; i++)
             {
                 var result = _dbContext.Add(new Repository.Entity.MovieComment()
                 {
@@ -60,6 +60,7 @@ namespace M.Nunit
             Assert.IsNotNull(models);
             if (models != null)
             {
+                models.Content = "this is test999";
                 var result = _dbContext.Update(models);
                 Assert.IsTrue(result.Result);
             }
@@ -68,17 +69,15 @@ namespace M.Nunit
         [Test]
         public void Destory()
         {
-            Expression<Func<Repository.Entity.MovieComment, bool>> func = (model) => true;
-            var models = _dbContext.GetEntity(func);
-            Assert.IsNotNull(models);
-            if (models != null)
-            {
-                var result = _dbContext.Delete(new Repository.Entity.MovieComment()
-                {
+            Expression<Func<Repository.Entity.MovieComment, bool>> func = (model) => model.Content== "this is test999";
+            //var models = _dbContext.GetEntity(func);
+            //Assert.IsNotNull(models);
+            //if (models != null)
+            //{
+            //}
 
-                });
-                Assert.IsTrue(result.Result);
-            }
+            var result = _dbContext.Delete(func);
+            Assert.IsTrue(result.Result);
         }
     }
 }

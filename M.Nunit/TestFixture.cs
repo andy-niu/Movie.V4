@@ -24,16 +24,13 @@ namespace M.Nunit
         {
             _services.AddLogging();
 
-            _services.AddDbContext<Repository.Context.MovieDbContext>(app => app.UseSqlServer("Data Source=.;Initial Catalog=Movie;Integrated Security=True"));
-            _services.AddScoped<IMovieAttributesRepository, MovieAttributesRepository>();
-
-            
-            //_services.AddDbContext<NposMasterDBContext>(app => app.UseSqlServer("Server=.;Initial Catalog=NPOS_PROD_Master;User Id=sa;Password=123456"));
             _services.AddDistributedMemoryCache();
-            
+            _services.AddMemoryCache();
+
+            _services.AddDbContext<Repository.Context.MovieDbContext>(app => app.UseSqlServer("Data Source=.;Initial Catalog=Movie;Integrated Security=True"));
 
             _services.AddSingleton<IDbContextFactory, DbContextFactory>();
-            _services.AddMemoryCache();
+            _services.AddScoped<IMovieAttributesRepository, MovieAttributesRepository>();
         }
 
         public T GetService<T>()
