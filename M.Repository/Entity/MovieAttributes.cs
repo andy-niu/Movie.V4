@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace M.Repository.Entity
 {
-    public partial class MovieAttributes
+    public partial class MovieAttributes : ITrackable
     {
         public int AttributesId { get; set; }
         public string Name { get; set; }

@@ -1,7 +1,9 @@
-﻿namespace M.Repository.Interface
+namespace M.Repository.Interface
 {
-    public interface IMovieAttributesRepository : IBaseRepository
-    {
-
-    }
-}
+	///<summary>
+	///MovieAttributes
+	///</summary>
+	public interface IMovieAttributesRepository : IBaseRepository<Entity.MovieAttributes>
+	{
+	}
+}	 

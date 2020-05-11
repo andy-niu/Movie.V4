@@ -37,7 +37,7 @@ Options:
 
 ### DOME
 ```
-dotnet ef dbcontext scaffold 'Data Source=.;Initial Catalog=Movie;Integrated Security=True' Microsoft.EntityFrameworkCore.SqlServer --context MovieBaseDbContext --context-dir Context --output-dir Entity --startup-project M.ServiceAPI
+dotnet ef dbcontext scaffold 'Data Source=.;Initial Catalog=Movie;Integrated Security=True' Microsoft.EntityFrameworkCore.SqlServer --context MovieBaseDbContext --context-dir Context --output-dir Entity --startup-project M.ServiceAPI --force
 
-dotnet ef dbcontext scaffold "Data Source=.;Initial Catalog=Movie;Integrated Security=True" Microsoft.EntityFrameworkCore.SqlServer -c MovieBaseDbContext --context-dir Context -o Entity -s M.ServiceAPI -p M.Repository
+dotnet ef dbcontext scaffold "Data Source=.;Initial Catalog=Movie;Integrated Security=True" Microsoft.EntityFrameworkCore.SqlServer -c MovieBaseDbContext --context-dir Context -o Entity -s M.ServiceAPI -p M.Repository -f
 ```

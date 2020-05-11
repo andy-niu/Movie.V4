@@ -1,6 +1,9 @@
-﻿namespace M.Repository.Interface
+namespace M.Repository.Interface
 {
-    public interface IUserRepository : IBaseRepository
-    {
-    }
-}
+	///<summary>
+	///User
+	///</summary>
+	public interface IUserRepository : IBaseRepository<Entity.User>
+	{
+	}
+}	 

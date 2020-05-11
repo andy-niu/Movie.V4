@@ -1,6 +1,9 @@
-﻿namespace M.Repository.Interface
+namespace M.Repository.Interface
 {
-    public interface IMovieCommentRepository : IBaseRepository
-    {
-    }
-}
+	///<summary>
+	///MovieComment
+	///</summary>
+	public interface IMovieCommentRepository : IBaseRepository<Entity.MovieComment>
+	{
+	}
+}	 

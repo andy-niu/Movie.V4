@@ -5,25 +5,31 @@ using System.Threading.Tasks;
 
 namespace M.Repository.Interface
 {
-    public interface IBaseRepository
+    public interface IBaseRepository<TEntity> where TEntity : class
     {
 
         int ExecuteSqlCommand(string sql);
 
         IEnumerable<dynamic> SqlQuery(string sql);
 
-        Task<bool> Add<T>(T Entity) where T : class;
+        Task<bool> Add(TEntity Entity) ;
 
-        Task<bool> Delete<T>(T Entity) where T : class;
+        Task<bool> Add(List<TEntity> entites) ;
 
-        Task<bool> Delete<T>(Expression<Func<T, bool>> exp) where T : class;
+        Task<bool> Delete(TEntity entity);
 
-        Task<bool> Update<T>(T Entity) where T : class;
+        Task<bool> Delete(Expression<Func<TEntity, bool>> where) ;
 
-        IEnumerable<T> GetEntities<T>(Expression<Func<T, bool>> exp) where T : class;
+        Task<bool> Update(TEntity entity) ;
+        Task<bool> Update(TEntity entity, params string[] propertyNames);
 
-        IEnumerable<T> GetEntitiesForPaging<T>(int Page, int pageSize, Expression<Func<T, bool>> exp) where T : class;
+        Task<TEntity> GetEntity(Expression<Func<TEntity, bool>> where);
 
-        T GetEntity<T>(Expression<Func<T, bool>> exp) where T : class;
+        Task<IEnumerable<TEntity>> GetEntities(Expression<Func<TEntity, bool>> where) ;
+
+        Task<IEnumerable<TEntity>> GetEntitiesForPaging(int page, int pageSize, Expression<Func<TEntity, bool>> where);
+
+        Task<IEnumerable<TEntity>> GetEntitiesForPaging<TKey>(int Page, int pageSize, Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, TKey>> order, bool isAsc = true);
+
     }
 }

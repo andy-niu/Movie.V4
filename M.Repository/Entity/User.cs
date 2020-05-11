@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace M.Repository.Entity
 {
-    public partial class User
+    public partial class User : ITrackable
     {
         public User()
         {
@@ -15,7 +15,7 @@ namespace M.Repository.Entity
         public string Password { get; set; }
         public string Email { get; set; }
         public string Mobile { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public int Status { get; set; }
 

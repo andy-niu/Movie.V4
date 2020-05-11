@@ -1,9 +1,12 @@
-﻿using M.Repository.Interface;
+using M.Repository.Interface;
 using Microsoft.Extensions.Logging;
 
 namespace M.Repository.Implement
 {
-    public class MovieCommentRepository : BaseRepository, Interface.IMovieCommentRepository
+    ///<summary>
+    ///MovieComment
+    ///</summary>
+    public class MovieCommentRepository : BaseRepository<Entity.MovieComment> ,Interface.IMovieCommentRepository
     {
         private readonly ILogger _logger;
         public MovieCommentRepository(ILogger<MovieCommentRepository> logger, IDbContextFactory dbContextFactory) : base(dbContextFactory)
@@ -11,4 +14,4 @@ namespace M.Repository.Implement
             this._logger = logger;
         }
     }
-}
+}	 

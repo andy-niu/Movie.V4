@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Model\DataModels.tt" />
+    <None Remove="Repository\DataModels.tt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Repository\IRepository.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Repository\Repository.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="MySQL\DataModels.txt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+</Project>

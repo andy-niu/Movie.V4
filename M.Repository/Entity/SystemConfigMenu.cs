@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace M.Repository.Entity
 {
-    public partial class SystemConfigMenu
+    public partial class SystemConfigMenu : ITrackable
     {
         public int Id { get; set; }
         public int? Status { get; set; }

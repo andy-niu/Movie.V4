@@ -1,0 +1,88 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension="/" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ assembly name="System.Data.dll" #>
+<#@ assembly name="System.Data.DataSetExtensions.dll" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly name="MySql.Data"#>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="MySql.Data.MySqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ include file="$(ProjectDir)\MySQL\DbHelper.ttinclude"  #>
+<#@ include file="$(ProjectDir)\MySQL\ModelAuto.ttinclude"	#>
+
+<# var manager = new Manager(Host, GenerationEnvironment, true); #>
+<# 
+	var OutputPath1 = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Host.TemplateFile+"..")+"..")+"..");
+	OutputPath1=Path.Combine(OutputPath1,"Domain\\Models");
+	if (!Directory.Exists(OutputPath1))
+	{
+	    Directory.CreateDirectory(OutputPath1);
+	}
+#>
+<#
+	var dataTables = DbHelper.GetTables();
+	foreach (DataRow it in dataTables.Rows)
+	{
+		var tableName = it[0].ToString();
+		var displayTableName =SqlDbTypeMap.WordFistToUpperCase(tableName);
+		manager.StartBlock(displayTableName + ".cs", OutputPath1);//文件名
+
+#>
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel;
+namespace <#=Config.DimainNameSpace #>
+{
+	///<summary>
+	/// <#=tableName#>
+	/// Automatic generation By T4 (<#=DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") #>)
+	///</summary>
+	[Table("<#=tableName#>")]	
+	public class <#=displayTableName#>
+	{
+		<#
+		var dataTable = DbHelper.GetTable(tableName);
+		foreach (DataRow item in dataTable.Rows)
+		{
+			string data_type = SqlDbTypeMap.MapCsharpType(item["data_type"].ToString());
+			string column_name = item["column_name"].ToString();
+			string displayName = SqlDbTypeMap.WordFistToUpperCase(column_name);
+			string column_comment = item["column_comment"].ToString();
+			string is_nullable = item["is_nullable"].ToString();
+			string column_key = item["column_key"].ToString();
+
+			if (is_nullable == "YES" && data_type != "string")
+			{
+				if (data_type == "byte[]")
+				{
+					data_type = "byte?[]";
+				}
+				else
+				{
+					data_type = data_type + "?";
+				}
+			}
+		#>
+
+		/// <summary>
+		/// <#=column_comment == "" ? column_name : column_comment.Replace("\r\n"," ") #>
+		/// </summary>
+		<# if(column_key=="PRI") {#>[Key]<#}#><# if(is_nullable != "YES") {#>[Required]<#}#>[ColumnAttribute("<#=column_name #>")]
+		[DisplayName("<#=column_comment #>")]
+		public <#=data_type #> <#=displayName #> { get; set; }
+	  <#}#>
+
+	}
+}
+<#
+		manager.EndBlock(); 
+   }
+  manager.Process(true);
+#>

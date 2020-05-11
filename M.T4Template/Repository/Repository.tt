@@ -1,0 +1,52 @@
+<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension="/" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ assembly name="System.Data.dll" #>
+<#@ assembly name="System.Data.DataSetExtensions.dll" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ include file="$(ProjectDir)\SQLServer\DbHelper.ttinclude"  #>
+<#@ include file="$(ProjectDir)\SQLServer\ModelAuto.ttinclude"	#>
+
+<# 
+	var manager = new Manager(Host, GenerationEnvironment, true);
+	var OutputPath1 = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Host.TemplateFile+"..")+"..")+"..");
+	OutputPath1=Path.Combine(OutputPath1,"M.Repository/Tobe/Implement/");
+	if (!Directory.Exists(OutputPath1))
+	{
+	    Directory.CreateDirectory(OutputPath1);
+	}
+#>
+<# foreach (var item in DbHelper.GetDbTablesNew(config.ConnectionString, config.DbDatabase,config.TableName))
+   {
+		 var tableName=item.ToString();
+		manager.StartBlock(tableName+"Repository.cs",OutputPath1);//文件名
+	   #>
+using M.Repository.Interface;
+using Microsoft.Extensions.Logging;
+
+namespace M.Repository.Implement
+{
+    ///<summary>
+    ///<#=tableName#>
+    ///</summary>
+    public class <#=tableName#>Repository : BaseRepository<Entity.<#=tableName#>> ,Interface.I<#=tableName#>Repository
+    {
+        private readonly ILogger _logger;
+        public <#=tableName#>Repository(ILogger<<#=tableName#>Repository> logger, IDbContextFactory dbContextFactory) : base(dbContextFactory)
+        {
+            this._logger = logger;
+        }
+    }
+}	 
+<#
+   manager.EndBlock(); 
+   }
+  manager.Process(true);
+#>

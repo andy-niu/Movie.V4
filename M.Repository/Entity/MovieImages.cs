@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace M.Repository.Entity
 {
-    public partial class MovieImages
+    public partial class MovieImages : ITrackable
     {
         public int Id { get; set; }
         public int? MovieId { get; set; }

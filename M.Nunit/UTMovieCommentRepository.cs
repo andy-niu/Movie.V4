@@ -22,17 +22,6 @@ namespace M.Nunit
         }
 
         [Test]
-        public void Get()
-        {
-
-            Expression<Func<Repository.Entity.MovieComment, bool>> func = (model) => model.MovieId==1;
-
-            var result = _dbContext.GetEntitiesForPaging(1, 10, func);
-
-            Assert.IsNotNull(result.ToList());
-        }
-
-        [Test]
         public void Add()
         {
             for (int i = 10; i < 20; i++)
@@ -55,7 +44,7 @@ namespace M.Nunit
         public void Update()
         {
             Expression<Func<Repository.Entity.MovieComment, bool>> func = (model) => true;
-            var models = _dbContext.GetEntity(func);
+            var models = _dbContext.GetEntity(func).Result;
 
             Assert.IsNotNull(models);
             if (models != null)
@@ -78,6 +67,31 @@ namespace M.Nunit
 
             var result = _dbContext.Delete(func);
             Assert.IsTrue(result.Result);
+        }
+
+        [Test]
+        public void Get()
+        {
+
+            Expression<Func<Repository.Entity.MovieComment, bool>> func = (model) => model.MovieId == 1;
+
+            var result = _dbContext.GetEntitiesForPaging(1, 10, func);
+
+            Assert.IsNotNull(result.Result.ToList());
+        }
+
+        [Test]
+        public void GetList()
+        {
+
+            Expression<Func<Repository.Entity.MovieComment, bool>> where = (model) => model.MovieId == 3997;
+            Expression<Func<Repository.Entity.MovieComment, object>> orderBy = (model) => model.CommentId;
+
+            Func<Repository.Entity.MovieAttributes, object> o = (i) => i.Alias;
+
+            var result = _dbContext.GetEntitiesForPaging(1, 10, where, ((model) => model.CommentId),false);
+
+            Assert.IsNotNull(result.Result.ToList());
         }
     }
 }

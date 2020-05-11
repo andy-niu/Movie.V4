@@ -1,12 +1,14 @@
-﻿using System;
+﻿using M.Repository.Entity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using M.Repository.Entity;
 
 namespace M.Repository.Context
 {
     public partial class MovieBaseDbContext : DbContext
     {
+        public MovieBaseDbContext()
+        {
+        }
+
         public MovieBaseDbContext(DbContextOptions options)
             : base(options)
         {
@@ -25,7 +27,7 @@ namespace M.Repository.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 //optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Movie;Integrated Security=True");
             }
         }
@@ -38,7 +40,9 @@ namespace M.Repository.Context
 
                 entity.Property(e => e.Alias).HasMaxLength(64);
 
-                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.Name).HasMaxLength(64);
 
@@ -249,5 +253,6 @@ namespace M.Repository.Context
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace M.Repository.Entity
 {
-    public partial class MovieBase
+    public partial class MovieBase : ITrackable
     {
         public MovieBase()
         {

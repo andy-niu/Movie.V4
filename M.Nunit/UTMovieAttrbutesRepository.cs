@@ -41,7 +41,7 @@ namespace M.Nunit
 
             var result = db.GetEntitiesForPaging(1,10,func);
 
-            Assert.IsNotNull(result.ToList());
+            Assert.IsNotNull(result.Result.ToList());
         }
        
     }
