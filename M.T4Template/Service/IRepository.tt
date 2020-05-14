@@ -17,7 +17,7 @@
 <# 
 	var manager = new Manager(Host, GenerationEnvironment, true);
 	var OutputPath1 = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Host.TemplateFile+"..")+"..")+"..");
-	OutputPath1=Path.Combine(OutputPath1,"M.Repository/Tobe/Interfaces/");
+	OutputPath1=Path.Combine(OutputPath1,"M.Service/Interfaces/");
 	if (!Directory.Exists(OutputPath1))
 	{
 	    Directory.CreateDirectory(OutputPath1);
@@ -26,14 +26,14 @@
 <# foreach (var item in DbHelper.GetDbTablesNew(config.ConnectionString, config.DbDatabase,config.TableName))
    {
 		 var tableName=item.ToString();
-		manager.StartBlock("I"+tableName+"Repository.cs",OutputPath1);//文件名
+		manager.StartBlock("I"+tableName+"Service.cs",OutputPath1);//文件名
 	   #>
-namespace M.Repository.Interface
+namespace M.Service.Interfaces
 {
 	///<summary>
 	///<#=tableName#>
 	///</summary>
-	public interface I<#=tableName#>Repository : IBaseRepository<Entity.<#=tableName#>>
+	public interface I<#=tableName#>Service : IBaseService<Repository.Entity.<#=tableName#>>
 	{
 	}
 }	 

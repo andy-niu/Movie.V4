@@ -1,6 +1,6 @@
 using AutoMapper;
-using M.Repository.Implement;
-using M.Repository.Interface;
+using M.Repository.Implements;
+using M.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
@@ -27,10 +27,10 @@ namespace M.Nunit
             _services.AddDistributedMemoryCache();
             _services.AddMemoryCache();
 
-            _services.AddDbContext<Repository.Context.MovieDbContext>(app => app.UseSqlServer("Data Source=.;Initial Catalog=Movie;Integrated Security=True"));
+            _services.AddDbContext<Repository.Context.MovieDbContext>(app => app.UseSqlServer("Data Source=.;Initial Catalog=Movie_Repository;Integrated Security=True"));
 
             _services.AddSingleton<IDbContextFactory, DbContextFactory>();
-            _services.AddScoped<IMovieAttributesRepository, MovieAttributesRepository>();
+            //_services.AddScoped<IMovieAttributesRepository, MovieAttributesRepository>();
         }
 
         public T GetService<T>()

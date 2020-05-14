@@ -1,0 +1,128 @@
+<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension="/" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ assembly name="System.Data.dll" #>
+<#@ assembly name="System.Data.DataSetExtensions.dll" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ include file="$(ProjectDir)\SQLServer\DbHelper.ttinclude"  #>
+<#@ include file="$(ProjectDir)\SQLServer\ModelAuto.ttinclude"	#>
+
+<# 
+	var manager = new Manager(Host, GenerationEnvironment, true);
+	var OutputPath1 = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Host.TemplateFile+"..")+"..")+"..");
+	OutputPath1=Path.Combine(OutputPath1,"M.Nunit/Repository");
+	if (!Directory.Exists(OutputPath1))
+	{
+	    Directory.CreateDirectory(OutputPath1);
+	}
+#>
+<# 
+    foreach (var item in DbHelper.GetDbTablesNew(config.ConnectionString, config.DbDatabase,config.TableName))
+   {
+        var tableName=item.ToString();
+        var columns = DbHelper.GetDbColumns(config.ConnectionString, config.DbDatabase, tableName);
+        var key = DbHelper.GetPrimaryKey(columns);
+		manager.StartBlock("UT"+tableName+"Repository.cs",OutputPath1);
+	   #>
+using M.Repository.Implements;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using NUnit.Framework;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
+namespace M.Nunit
+{
+    class UT<#=tableName#>Repository
+    {
+        private TestFixture _fixture;
+        private ILogger<<#=tableName#>Repository> _logger;
+        private <#=tableName#>Repository _dbContext;
+
+        [SetUp]
+        public void Setup()
+        {
+            this._fixture = new TestFixture();
+            this._logger = this._fixture.GetService<ILogger<<#=tableName#>Repository>>();
+            this._dbContext = new <#=tableName#>Repository(_logger, new DbContextFactory(_fixture.Services.BuildServiceProvider()));
+        }
+
+        [Test]
+        public void Add()
+        {
+            for (int i = 10; i < 20; i++)
+            {
+                var result = _dbContext.Add(new Repository.Entity.<#=tableName#>()
+                {
+<#              foreach(DbColumn column in columns){#>
+    <#            if(column.ColumnName=="CreatedAt" || column.ColumnName=="UpdatedAt"){}else{#>
+                <#=column.ColumnName#> = <#=DbHelper.GetDefaultValue(column.CSharpType) #>,
+        <#
+                }
+        }
+        #> 
+                });
+                Assert.IsTrue(result.Result);
+            }
+        }
+
+        [Test]
+        public void Update()
+        {
+            Expression<Func<Repository.Entity.<#=tableName#>, bool>> func = (model) => true;
+            var models = _dbContext.GetEntity(func).Result;
+
+            Assert.IsNotNull(models);
+            if (models != null)
+            {
+                models.UpdatedAt = DateTime.Now;
+                var result = _dbContext.Update(models);
+                Assert.IsTrue(result.Result);
+            }
+        }
+
+        [Test]
+        public void Destory()
+        {
+            var models = _dbContext.GetEntity((model) => true);
+            Assert.IsNotNull(models.Result);
+            if (models.Result != null)
+            {
+                var result = _dbContext.Delete(models.Result);
+                Assert.IsTrue(result.Result);
+            }
+        }
+
+        [Test]
+        public void Get()
+        {
+
+            var result = _dbContext.GetEntity((model) => true);
+            Assert.IsNotNull(result.Result);
+        }
+
+        [Test]
+        public void GetList()
+        {
+
+            Expression<Func<Repository.Entity.<#=tableName#>, bool>> where = (model) => true;
+            Expression<Func<Repository.Entity.<#=tableName#>, object>> orderBy = (model) => model.<#=key#>;
+
+            var result = _dbContext.GetEntitiesForPaging(1, 10, where, ((model) => model.<#=key#>),false);
+
+            Assert.IsNotNull(result.Result.ToList());
+        }
+    }
+} 
+<#
+   manager.EndBlock(); 
+   }
+  manager.Process(true);
+#>

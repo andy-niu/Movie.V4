@@ -1,4 +1,4 @@
-﻿using M.Repository.Implements;
+using M.Repository.Implements;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
@@ -7,18 +7,18 @@ using System.Linq;
 using System.Linq.Expressions;
 namespace M.Nunit
 {
-    class UTMovieCommentRepositoryDome
+    class UTUserRoleRelationRepository
     {
         private TestFixture _fixture;
-        private ILogger<MovieCommentRepository> _logger;
-        private MovieCommentRepository _dbContext;
+        private ILogger<UserRoleRelationRepository> _logger;
+        private UserRoleRelationRepository _dbContext;
 
         [SetUp]
         public void Setup()
         {
             this._fixture = new TestFixture();
-            this._logger = this._fixture.GetService<ILogger<MovieCommentRepository>>();
-            this._dbContext = new MovieCommentRepository(_logger, new DbContextFactory(_fixture.Services.BuildServiceProvider()));
+            this._logger = this._fixture.GetService<ILogger<UserRoleRelationRepository>>();
+            this._dbContext = new UserRoleRelationRepository(_logger, new DbContextFactory(_fixture.Services.BuildServiceProvider()));
         }
 
         [Test]
@@ -26,31 +26,27 @@ namespace M.Nunit
         {
             for (int i = 10; i < 20; i++)
             {
-                var result = _dbContext.Add(new Repository.Entity.MovieComment()
+                var result = _dbContext.Add(new Repository.Entity.UserRoleRelation()
                 {
-                    Content = $"test--{i}",
-                    MovieId = 3997,
-                    Parentid = 0,
-                    PcitureUrl = "",
-                    UserId = 1,
-                    UserName = "Andy---" + i,
-                    UserIp = "127.0.0.1"
+                    UserRoleId = Guid.NewGuid(),
+                            UserId = Guid.NewGuid(),
+                            RoleId = Guid.NewGuid(),
+                 
                 });
                 Assert.IsTrue(result.Result);
-               
             }
         }
 
         [Test]
         public void Update()
         {
-            //Expression<Func<Repository.Entity.MovieComment, bool>> func = (model) => true;
-            var models = _dbContext.GetEntity((model) => true).Result;
+            Expression<Func<Repository.Entity.UserRoleRelation, bool>> func = (model) => true;
+            var models = _dbContext.GetEntity(func).Result;
 
             Assert.IsNotNull(models);
             if (models != null)
             {
-                models.Content = "this is test999";
+                models.UpdatedAt = DateTime.Now;
                 var result = _dbContext.Update(models);
                 Assert.IsTrue(result.Result);
             }
@@ -71,6 +67,7 @@ namespace M.Nunit
         [Test]
         public void Get()
         {
+
             var result = _dbContext.GetEntity((model) => true);
             Assert.IsNotNull(result.Result);
         }
@@ -79,14 +76,12 @@ namespace M.Nunit
         public void GetList()
         {
 
-            Expression<Func<Repository.Entity.MovieComment, bool>> where = (model) => model.MovieId == 3997;
-            Expression<Func<Repository.Entity.MovieComment, object>> orderBy = (model) => model.CommentId;
+            Expression<Func<Repository.Entity.UserRoleRelation, bool>> where = (model) => true;
+            Expression<Func<Repository.Entity.UserRoleRelation, object>> orderBy = (model) => model.UserRoleId;
 
-            Func<Repository.Entity.MovieAttributes, object> o = (i) => i.Alias;
-
-            var result = _dbContext.GetEntitiesForPaging(1, 10, where, ((model) => model.CommentId),false);
+            var result = _dbContext.GetEntitiesForPaging(1, 10, where, ((model) => model.UserRoleId),false);
 
             Assert.IsNotNull(result.Result.ToList());
         }
     }
-}
+} 

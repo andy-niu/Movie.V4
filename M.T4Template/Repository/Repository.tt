@@ -17,7 +17,7 @@
 <# 
 	var manager = new Manager(Host, GenerationEnvironment, true);
 	var OutputPath1 = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Host.TemplateFile+"..")+"..")+"..");
-	OutputPath1=Path.Combine(OutputPath1,"M.Repository/Tobe/Implement/");
+	OutputPath1=Path.Combine(OutputPath1,"M.Repository/Tobe/Implements/");
 	if (!Directory.Exists(OutputPath1))
 	{
 	    Directory.CreateDirectory(OutputPath1);

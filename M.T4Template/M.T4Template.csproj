@@ -19,6 +19,15 @@
     <None Update="MySQL\DataModels.txt">
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
+    <None Update="Repository\UTRepositpry.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Service\Service.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Service\IRepository.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

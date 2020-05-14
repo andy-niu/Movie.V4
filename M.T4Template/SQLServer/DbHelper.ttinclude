@@ -185,6 +185,38 @@
             return primaryKey;
         }
         #endregion
+
+        public static object GetDefaultValue(string dbtype)
+        {
+            if (string.IsNullOrEmpty(dbtype)) return dbtype;
+            dbtype = dbtype.ToLower();
+            object values;
+            switch (dbtype)
+            {
+               
+                case "date": values = DateTime.Now; break;
+                case "datetime": values = DateTime.Now; break;
+                case "datetime2": values = DateTime.Now; break;
+                case "datetimeoffset": values = "DateTimeOffset"; break;
+                case "decimal": values = 0; break;
+                case "float": values = 0; break;
+                case "int": values = 0; break;
+                case "money": values = 0; break;
+                case "nchar": values = "test--{i}"; break;
+                case "ntext": values = "test--{i}"; break;
+                case "numeric": values = 0; break;
+                case "nvarchar": values = "test--{i}"; break;
+                case "text": values = "test--{i}"; break;
+                case "time": values = DateTime.Now; break;
+                case "timestamp": values = DateTime.Now; break;
+                case "varchar": values = "test--{i}"; break;
+                case "xml": values = "test--{i}"; break;
+                case "uniqueidentifier": values = "Guid.NewGuid()"; break;
+                case "guid": values = "Guid.NewGuid()"; break;
+                default: values = "$\"test--{i}\"" ; break;
+            }
+            return values;
+        }
     }
 
     #region DbTable

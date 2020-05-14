@@ -1,4 +1,4 @@
-﻿using M.Repository.Implements;
+using M.Repository.Implements;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 namespace M.Nunit
 {
-    class UTMovieCommentRepositoryDome
+    class UTMovieCommentRepository
     {
         private TestFixture _fixture;
         private ILogger<MovieCommentRepository> _logger;
@@ -28,29 +28,32 @@ namespace M.Nunit
             {
                 var result = _dbContext.Add(new Repository.Entity.MovieComment()
                 {
-                    Content = $"test--{i}",
-                    MovieId = 3997,
-                    Parentid = 0,
-                    PcitureUrl = "",
-                    UserId = 1,
-                    UserName = "Andy---" + i,
-                    UserIp = "127.0.0.1"
+                    CommentId = 0,
+                            Parentid = 0,
+                            Content = $"test--{i}",
+                            UserName = $"test--{i}",
+                            ToUserName = $"test--{i}",
+                            ToUserId = 0,
+                            UserId = 0,
+                                    UserIp = $"test--{i}",
+                            PcitureUrl = $"test--{i}",
+                            MovieId = 2,
+         
                 });
                 Assert.IsTrue(result.Result);
-               
             }
         }
 
         [Test]
         public void Update()
         {
-            //Expression<Func<Repository.Entity.MovieComment, bool>> func = (model) => true;
-            var models = _dbContext.GetEntity((model) => true).Result;
+            Expression<Func<Repository.Entity.MovieComment, bool>> func = (model) => true;
+            var models = _dbContext.GetEntity(func).Result;
 
             Assert.IsNotNull(models);
             if (models != null)
             {
-                models.Content = "this is test999";
+                models.UpdatedAt = DateTime.Now;
                 var result = _dbContext.Update(models);
                 Assert.IsTrue(result.Result);
             }
@@ -71,6 +74,7 @@ namespace M.Nunit
         [Test]
         public void Get()
         {
+
             var result = _dbContext.GetEntity((model) => true);
             Assert.IsNotNull(result.Result);
         }
@@ -79,14 +83,12 @@ namespace M.Nunit
         public void GetList()
         {
 
-            Expression<Func<Repository.Entity.MovieComment, bool>> where = (model) => model.MovieId == 3997;
+            Expression<Func<Repository.Entity.MovieComment, bool>> where = (model) => true;
             Expression<Func<Repository.Entity.MovieComment, object>> orderBy = (model) => model.CommentId;
-
-            Func<Repository.Entity.MovieAttributes, object> o = (i) => i.Alias;
 
             var result = _dbContext.GetEntitiesForPaging(1, 10, where, ((model) => model.CommentId),false);
 
             Assert.IsNotNull(result.Result.ToList());
         }
     }
-}
+} 
