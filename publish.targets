@@ -1,0 +1,17 @@
+<Project>
+    <PropertyGroup>
+        <PublishRootDir>..\..\bin</PublishRootDir>
+    </PropertyGroup>
+    <Target Name="PublishAssets" AfterTargets="Publish">
+        <ItemGroup>
+            <_PublishAssets Include="$(OutDir)\publish\**\*.*" />
+        </ItemGroup>
+        <Message Importance="High" Text="Publishing assets " />
+        <Copy SourceFiles="@(_PublishAssets)" DestinationFolder="$(PublishRootDir)\$(TargetName)\%(RecursiveDir)" SkipUnchangedFiles="true" />
+        <ItemGroup>
+            <_Cfg Include="..\..\.deploy\**" />
+        </ItemGroup>
+        <Message Importance="High" Text="Copying config " />
+        <Copy SourceFiles="@(_Cfg)" DestinationFolder="$(PublishRootDir)\$(TargetName)\%(RecursiveDir)" SkipUnchangedFiles="true" />
+    </Target>
+</Project>

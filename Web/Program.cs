@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NLog.Web;
 
-namespace M.ServiceAPI
+namespace Web
 {
     public class Program
     {
@@ -19,12 +18,6 @@ namespace M.ServiceAPI
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureLogging(logging =>
-                {
-                    NLog.LogManager.LoadConfiguration("nlog.config");
-                    logging.ClearProviders();
-                })
-                .UseNLog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

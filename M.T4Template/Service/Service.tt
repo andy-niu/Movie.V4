@@ -30,6 +30,8 @@
 	   #>
 using M.Repository.Entity;
 using M.Service.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace M.Service.Implements
 {
@@ -38,8 +40,8 @@ namespace M.Service.Implements
 	///</summary>
     public class <#=tableName#>Service : BaseService<<#=tableName#>>, I<#=tableName#>Service
     {
-        private Repository.Interfaces.I<#=tableName#>Repository _repository;
-        public <#=tableName#>Service(Repository.Interfaces.IBaseRepository<<#=tableName#>> repository)
+        private readonly Repository.Interfaces.I<#=tableName#>Repository _repository;
+        public <#=tableName#>Service(ILogger<<#=tableName#>Service> logger, IMemoryCache cache, Repository.Interfaces.IBaseRepository<<#=tableName#>> repository) : base(logger, cache)
         {
             base._baseRepository = repository;
             _repository = repository as Repository.Interfaces.I<#=tableName#>Repository;

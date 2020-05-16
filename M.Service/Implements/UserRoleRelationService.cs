@@ -1,5 +1,7 @@
 using M.Repository.Entity;
 using M.Service.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace M.Service.Implements
 {
@@ -8,8 +10,8 @@ namespace M.Service.Implements
 	///</summary>
     public class UserRoleRelationService : BaseService<UserRoleRelation>, IUserRoleRelationService
     {
-        private Repository.Interfaces.IUserRoleRelationRepository _repository;
-        public UserRoleRelationService(Repository.Interfaces.IBaseRepository<UserRoleRelation> repository)
+        private readonly Repository.Interfaces.IUserRoleRelationRepository _repository;
+        public UserRoleRelationService(ILogger<UserRoleRelationService> logger, IMemoryCache cache, Repository.Interfaces.IBaseRepository<UserRoleRelation> repository) : base(logger, cache)
         {
             base._baseRepository = repository;
             _repository = repository as Repository.Interfaces.IUserRoleRelationRepository;

@@ -1,5 +1,7 @@
 ﻿using M.Service.Interfaces;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,11 +13,14 @@ namespace M.Service.Implements
 {
     public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class, new()
     {
-        public Repository.Interfaces.IBaseRepository<TEntity> _baseRepository;
-        //public BaseService(Repository.Interfaces.IBaseRepository<TEntity> repository)
-        //{
-        //    _repository = repository;
-        //}
+        protected Repository.Interfaces.IBaseRepository<TEntity> _baseRepository;
+        protected ILogger _logger;
+        protected readonly IMemoryCache _cache;
+        public BaseService(ILogger logger, IMemoryCache cache)
+        {
+            _logger = logger;
+            _cache = cache;
+        }
 
         public async Task<bool> Add(TEntity entity)
         {
