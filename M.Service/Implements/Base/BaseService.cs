@@ -16,9 +16,8 @@ namespace M.Service.Implements
         protected Repository.Interfaces.IBaseRepository<TEntity> _baseRepository;
         protected ILogger _logger;
         protected readonly IMemoryCache _cache;
-        public BaseService(ILogger logger, IMemoryCache cache)
+        public BaseService(IMemoryCache cache)
         {
-            _logger = logger;
             _cache = cache;
         }
 

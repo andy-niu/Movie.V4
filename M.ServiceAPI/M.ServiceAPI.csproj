@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\bak\**" />
+    <Content Remove="Controllers\bak\**" />
+    <EmbeddedResource Remove="Controllers\bak\**" />
+    <None Remove="Controllers\bak\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="nlog.config" />
   </ItemGroup>
 

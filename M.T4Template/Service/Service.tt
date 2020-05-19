@@ -41,9 +41,10 @@ namespace M.Service.Implements
     public class <#=tableName#>Service : BaseService<<#=tableName#>>, I<#=tableName#>Service
     {
         private readonly Repository.Interfaces.I<#=tableName#>Repository _repository;
-        public <#=tableName#>Service(ILogger<<#=tableName#>Service> logger, IMemoryCache cache, Repository.Interfaces.IBaseRepository<<#=tableName#>> repository) : base(logger, cache)
+        public <#=tableName#>Service(ILogger<<#=tableName#>Service> logger, IMemoryCache cache, Repository.Interfaces.IBaseRepository<<#=tableName#>> repository) : base(cache)
         {
             base._baseRepository = repository;
+            base._logger = logger;
             _repository = repository as Repository.Interfaces.I<#=tableName#>Repository;
         }
     }

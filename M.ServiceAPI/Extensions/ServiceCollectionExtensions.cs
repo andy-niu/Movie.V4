@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 
 namespace M.ServiceAPI.Extensions
@@ -39,6 +40,9 @@ namespace M.ServiceAPI.Extensions
             //泛型引用方式
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
+
+            //services.RegisterAssembly("IServices");
+            //services.RegisterAssembly("IRepository");
 
             //add repositories
             services.AddScoped<IMovieCommentRepository, MovieCommentRepository>();

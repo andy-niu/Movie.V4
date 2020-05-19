@@ -1,3 +1,33 @@
+<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension="/" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ assembly name="System.Data.dll" #>
+<#@ assembly name="System.Data.DataSetExtensions.dll" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ include file="$(ProjectDir)\SQLServer\DbHelper.ttinclude"  #>
+<#@ include file="$(ProjectDir)\SQLServer\ModelAuto.ttinclude"	#>
+
+<# 
+	var manager = new Manager(Host, GenerationEnvironment, true);
+	var OutputPath1 = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Host.TemplateFile+"..")+"..")+"..");
+	OutputPath1=Path.Combine(OutputPath1,"M.ServiceAPI/Controllers/");
+	if (!Directory.Exists(OutputPath1))
+	{
+	    Directory.CreateDirectory(OutputPath1);
+	}
+#>
+<# foreach (var item in DbHelper.GetDbTablesNew(config.ConnectionString, config.DbDatabase,config.TableName))
+   {
+		 var tableName=item.ToString();
+		manager.StartBlock(tableName+"Controller.cs",OutputPath1);//文件名
+	   #>
 using M.Model;
 using M.Repository.Entity;
 using M.Service.Interfaces;
@@ -8,10 +38,10 @@ using System.Threading.Tasks;
 namespace M.ServiceAPI.Controllers
 {
     [ApiVersion("1.0"), ApiController, Consumes("application/json"), Route("api/v{version:apiVersion}/[controller]")]
-    public class MovieBaseController : ControllerBase
+    public class <#=tableName#>Controller : ControllerBase
     {
-        private IMovieBaseService _service;
-        public MovieBaseController(IMovieBaseService service)
+        private I<#=tableName#>Service _service;
+        public <#=tableName#>Controller(I<#=tableName#>Service service)
         {
             _service = service;
         }
@@ -32,7 +62,7 @@ namespace M.ServiceAPI.Controllers
         }
 
         [HttpPost("list/{page}/{pageSize}")]
-        public async Task<IActionResult> GetList(MovieBase model, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> GetList(<#=tableName#> model, int page = 1, int pageSize = 10)
         {
             try
             {
@@ -47,7 +77,7 @@ namespace M.ServiceAPI.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<IActionResult> Save([FromBody]MovieBase model)
+        public async Task<IActionResult> Save([FromBody]<#=tableName#> model)
         {
             try
             {
@@ -62,7 +92,7 @@ namespace M.ServiceAPI.Controllers
         }
 
         [HttpPut("edit")]
-        public async Task<IActionResult> Edit([FromBody]MovieBase model)
+        public async Task<IActionResult> Edit([FromBody]<#=tableName#> model)
         {
             try
             {
@@ -77,7 +107,7 @@ namespace M.ServiceAPI.Controllers
         }
 
         [HttpDelete("destory")]
-        public async Task<IActionResult> Destory([FromBody]MovieBase model)
+        public async Task<IActionResult> Destory([FromBody]<#=tableName#> model)
         {
             try
             {
@@ -107,3 +137,8 @@ namespace M.ServiceAPI.Controllers
         }
     }
 } 
+<#
+   manager.EndBlock(); 
+   }
+  manager.Process(true);
+#>

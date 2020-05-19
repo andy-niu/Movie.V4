@@ -11,9 +11,10 @@ namespace M.Service.Implements
     public class MovieImagesService : BaseService<MovieImages>, IMovieImagesService
     {
         private readonly Repository.Interfaces.IMovieImagesRepository _repository;
-        public MovieImagesService(ILogger<MovieImagesService> logger, IMemoryCache cache, Repository.Interfaces.IBaseRepository<MovieImages> repository) : base(logger, cache)
+        public MovieImagesService(ILogger<MovieImagesService> logger, IMemoryCache cache, Repository.Interfaces.IBaseRepository<MovieImages> repository) : base(cache)
         {
             base._baseRepository = repository;
+            base._logger = logger;
             _repository = repository as Repository.Interfaces.IMovieImagesRepository;
         }
     }

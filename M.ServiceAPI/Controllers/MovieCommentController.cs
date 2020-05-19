@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 namespace M.ServiceAPI.Controllers
 {
     [ApiVersion("1.0"), ApiController, Consumes("application/json"), Route("api/v{version:apiVersion}/[controller]")]
-    public class MovieBaseController : ControllerBase
+    public class MovieCommentController : ControllerBase
     {
-        private IMovieBaseService _service;
-        public MovieBaseController(IMovieBaseService service)
+        private IMovieCommentService _service;
+        public MovieCommentController(IMovieCommentService service)
         {
             _service = service;
         }
@@ -32,7 +32,7 @@ namespace M.ServiceAPI.Controllers
         }
 
         [HttpPost("list/{page}/{pageSize}")]
-        public async Task<IActionResult> GetList(MovieBase model, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> GetList(MovieComment model, int page = 1, int pageSize = 10)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace M.ServiceAPI.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<IActionResult> Save([FromBody]MovieBase model)
+        public async Task<IActionResult> Save([FromBody]MovieComment model)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace M.ServiceAPI.Controllers
         }
 
         [HttpPut("edit")]
-        public async Task<IActionResult> Edit([FromBody]MovieBase model)
+        public async Task<IActionResult> Edit([FromBody]MovieComment model)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace M.ServiceAPI.Controllers
         }
 
         [HttpDelete("destory")]
-        public async Task<IActionResult> Destory([FromBody]MovieBase model)
+        public async Task<IActionResult> Destory([FromBody]MovieComment model)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace M.ServiceAPI.Controllers
         {
             try
             {
-                var result = await _service.Delete(model => model.MovieId == id);
+                var result = await _service.Delete(model => model.CommentId == id);
                 var returnReult = new ApiResult(ApiResultCode.Success, "Sccuessfully.", "操作成功", result);
                 return Ok(returnReult);
             }

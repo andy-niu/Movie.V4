@@ -10,6 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Controller\Controller.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="Repository\IRepository.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>

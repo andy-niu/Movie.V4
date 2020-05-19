@@ -1,4 +1,4 @@
-using M.Model;
+﻿using M.Model;
 using M.Repository.Entity;
 using M.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +10,10 @@ namespace M.ServiceAPI.Controllers
     [ApiVersion("1.0"), ApiController, Consumes("application/json"), Route("api/v{version:apiVersion}/[controller]")]
     public class MovieBaseController : ControllerBase
     {
-        private IMovieBaseService _service;
-        public MovieBaseController(IMovieBaseService service)
+        private IMovieBaseService _baseService;
+        public MovieBaseController(IMovieBaseService baseService)
         {
-            _service = service;
+            _baseService = baseService;
         }
 
         [HttpGet("{id}")]
@@ -21,7 +21,7 @@ namespace M.ServiceAPI.Controllers
         {
             try
             {
-                var result = await _service.GetEntity((model) => true);
+                var result = await _baseService.GetEntity((model) => model.MovieId == id);
                 var returnReult = new ApiResult(ApiResultCode.Success, "Sccuessfully.", "操作成功", result);
                 return Ok(returnReult);
             }
@@ -36,7 +36,7 @@ namespace M.ServiceAPI.Controllers
         {
             try
             {
-                var result = await _service.GetEntitiesForPaging(page, pageSize, (model => true));
+                var result = await _baseService.GetEntitiesForPaging(page, pageSize, (model => true));
                 var returnReult = new ApiResult(ApiResultCode.Success, "Sccuessfully.", "操作成功", result);
                 return Ok(returnReult);
             }
@@ -51,7 +51,7 @@ namespace M.ServiceAPI.Controllers
         {
             try
             {
-                var result = await _service.Add(model);
+                var result = await _baseService.Add(model);
                 var returnReult = new ApiResult(ApiResultCode.Success, "Sccuessfully.", "操作成功", result);
                 return Ok(returnReult);
             }
@@ -66,7 +66,7 @@ namespace M.ServiceAPI.Controllers
         {
             try
             {
-                var result = await _service.Update(model);
+                var result = await _baseService.Update(model);
                 var returnReult = new ApiResult(ApiResultCode.Success, "Sccuessfully.", "操作成功", result);
                 return Ok(returnReult);
             }
@@ -81,7 +81,7 @@ namespace M.ServiceAPI.Controllers
         {
             try
             {
-                var result = await _service.Delete(model);
+                var result = await _baseService.Delete(model);
                 var returnReult = new ApiResult(ApiResultCode.Success, "Sccuessfully.", "操作成功", result);
                 return Ok(returnReult);
             }
@@ -96,7 +96,7 @@ namespace M.ServiceAPI.Controllers
         {
             try
             {
-                var result = await _service.Delete(model => model.MovieId == id);
+                var result = await _baseService.Delete(model => model.MovieId == id);
                 var returnReult = new ApiResult(ApiResultCode.Success, "Sccuessfully.", "操作成功", result);
                 return Ok(returnReult);
             }
@@ -105,5 +105,6 @@ namespace M.ServiceAPI.Controllers
                 return Ok(new ApiResult { code = ApiResultCode.SystemError, msg = "fail," + ex.Message, msgcn = "系统异常" });
             }
         }
+
     }
-} 
+}
