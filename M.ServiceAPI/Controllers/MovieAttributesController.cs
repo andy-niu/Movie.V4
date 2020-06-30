@@ -1,4 +1,4 @@
-using M.Model;
+using M.Models;
 using M.Repository.Entity;
 using M.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +17,7 @@ namespace M.ServiceAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<ActionResult<MovieAttributes>> Get(int id)
         {
             try
             {
@@ -104,6 +104,14 @@ namespace M.ServiceAPI.Controllers
             {
                 return Ok(new ApiResult { code = ApiResultCode.SystemError, msg = "fail," + ex.Message, msgcn = "系统异常" });
             }
+        }
+
+        [HttpDelete("del")]
+        public IActionResult Destorys()
+        {
+            Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary stateDictionary = new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary();
+            stateDictionary.AddModelError("value", "null");
+            return new BadRequestObjectResult(stateDictionary);
         }
     }
 } 

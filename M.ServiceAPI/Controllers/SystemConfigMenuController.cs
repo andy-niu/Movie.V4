@@ -1,4 +1,4 @@
-using M.Model;
+using M.Models;
 using M.Repository.Entity;
 using M.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;

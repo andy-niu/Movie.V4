@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace M.Model.ViewModels
+namespace M.Models.ViewModels
 {
     public class MovieBaseViewModel
     {

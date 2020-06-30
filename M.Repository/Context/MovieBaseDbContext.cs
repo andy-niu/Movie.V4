@@ -205,6 +205,10 @@ namespace M.Repository.Context
                 entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
                 entity.Property(e => e.UserName).HasMaxLength(61);
+
+                entity.HasMany(d => d.UserRoleRelation)
+                    .WithOne(p => p.User)
+                    .HasForeignKey(p=>p.UserId);
             });
 
             modelBuilder.Entity<UserRole>(entity =>

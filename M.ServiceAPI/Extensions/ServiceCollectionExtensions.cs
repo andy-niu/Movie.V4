@@ -41,16 +41,13 @@ namespace M.ServiceAPI.Extensions
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
 
-            //services.RegisterAssembly("IServices");
-            //services.RegisterAssembly("IRepository");
-
             //add repositories
             services.AddScoped<IMovieCommentRepository, MovieCommentRepository>();
             services.AddScoped<IMovieImagesRepository, MovieImagesRepository>();
             services.AddScoped<ISystemConfigMenuRepository, SystemConfigMenuRepository>();
             services.AddScoped<IMovieAttributesRepository, MovieAttributesRepository>();
             services.AddScoped<IMovieBaseRepository, MovieBaseRepository>();
-            services.AddScoped<IUserRoleRelationRepository, UserRoleRelationRepository>();
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
@@ -60,7 +57,7 @@ namespace M.ServiceAPI.Extensions
             services.AddScoped<ISystemConfigMenuService, SystemConfigMenuService>();
             services.AddScoped<IMovieAttributesService, MovieAttributesService>();
             services.AddScoped<IMovieBaseService, MovieBaseService>();
-            services.AddScoped<IUserRoleRelationService, UserRoleRelationService>();
+            services.AddScoped<IUserRoleService, UserRoleService>();
             services.AddScoped<IUserRoleService, UserRoleService>();
             services.AddScoped<IUserService, UserService>();
 

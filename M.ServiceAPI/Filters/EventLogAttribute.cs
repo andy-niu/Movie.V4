@@ -29,7 +29,7 @@ namespace M.ServiceAPI.Filters
                 var request = context.HttpContext.Request;
                 string log = string.Format(
                         CultureInfo.InvariantCulture,
-                        "AppContract Request {0} {1} {2}://{3}{4}{5}{6} {7} {8} TimeSpent:{9}ms",
+                        "Request {0} {1} {2}://{3}{4}{5}{6} {7} {8} TimeSpent:{9}ms",
                         request.Protocol,
                         request.Method,
                         request.Scheme,

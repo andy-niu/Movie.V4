@@ -5,7 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\M.Model\M.Model.csproj" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\M.Model\M.Models.csproj" />
     <ProjectReference Include="..\M.Repository\M.Repository.csproj" />
   </ItemGroup>
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace M.Model
+namespace M.Models
 {
     public class ApiResult
     {

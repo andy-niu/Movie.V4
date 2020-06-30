@@ -1,4 +1,4 @@
-﻿using M.Model;
+﻿using M.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;

@@ -1,4 +1,5 @@
-﻿using M.Repository.Implements;
+﻿using M.Common;
+using M.Repository.Implements;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
@@ -12,6 +13,19 @@ namespace M.Nunit
         private TestFixture _fixture;
         private ILogger<MovieCommentRepository> _logger;
         private MovieCommentRepository _dbContext;
+
+
+        public enum Company
+        {
+            Unknown = 0,
+
+            [EnumValue("1")]
+            Afc = 1,
+
+            [EnumValue("2")]
+            Lc = 2
+        }
+
 
         [SetUp]
         public void Setup()
@@ -87,6 +101,16 @@ namespace M.Nunit
             var result = _dbContext.GetEntitiesForPaging(1, 10, where, ((model) => model.CommentId),false);
 
             Assert.IsNotNull(result.Result.ToList());
+        }
+
+
+        [Test]
+        public void Dome()
+        {
+            var saleCompanyId = 2;
+            var conpany = (Company)saleCompanyId;
+
+            Assert.AreEqual(Company.Lc, conpany);
         }
     }
 }

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "M.Repository", "M.Repositor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "M.Service", "M.Service\M.Service.csproj", "{A13D4D69-DFF4-4A29-96CC-D01854697F33}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "M.Model", "M.Model\M.Model.csproj", "{62DA7D85-A917-4DC9-ACA6-23453250E16F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "M.Models", "M.Model\M.Models.csproj", "{62DA7D85-A917-4DC9-ACA6-23453250E16F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "M.ServiceAPI", "M.ServiceAPI\M.ServiceAPI.csproj", "{A121A8B0-4B5E-4F7F-AB70-9AAB996651A5}"
 EndProject

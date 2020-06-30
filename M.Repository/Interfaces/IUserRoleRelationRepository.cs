@@ -1,7 +1,7 @@
 namespace M.Repository.Interfaces
 {
 	///<summary>
-	///UserRoleRelation
+	///UserRole
 	///</summary>
 	public interface IUserRoleRelationRepository : IBaseRepository<Entity.UserRoleRelation>
 	{
