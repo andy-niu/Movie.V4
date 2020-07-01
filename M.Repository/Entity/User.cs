@@ -24,9 +24,9 @@ namespace M.Repository.Entity
         public int Status { get; set; }
 
         [JsonIgnore]
-        public ICollection<UserRoleRelation> UserRoleRelation { get; set; }
+        public virtual ICollection<UserRoleRelation> UserRoleRelation { get; set; }
 
         [JsonIgnore]
-        public ICollection<RefreshToken> RefreshTokens { get; set; }
+        public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
     }
 }

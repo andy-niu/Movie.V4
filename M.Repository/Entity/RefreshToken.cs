@@ -16,6 +16,7 @@ namespace M.Repository.Entity
         public string RevokedByIp { get; set; }
         public string ReplacedByToken { get; set; }
         public bool IsActive => Revoked == null && !IsExpired;
+        public Guid UserId { get; set; }
 
         public DateTime? CreatedAt { get ; set ; }
         public DateTime? UpdatedAt { get ; set ; }

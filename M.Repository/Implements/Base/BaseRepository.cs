@@ -27,13 +27,13 @@ namespace M.Repository.Implements
         }
 
         [Obsolete]
-        public async Task<int> ExecuteSqlCommand(string sql)
+        public virtual async Task<int> ExecuteSqlCommand(string sql)
         {
             return await GetMovieDbContext().Database.ExecuteSqlCommandAsync(sql);
         }
 
         [Obsolete]
-        public IEnumerable<dynamic> Query(string sql)
+        public virtual IEnumerable<dynamic> Query(string sql)
         {
             var _db = GetMovieDbContext();
             using (var cmd = _db.Database.GetDbConnection().CreateCommand())
@@ -59,7 +59,7 @@ namespace M.Repository.Implements
         }
 
         [Obsolete]
-        public async Task<IEnumerable<TEntity>> Query(string sql, List<SqlParameter> parms, CommandType cmdType = CommandType.Text)
+        public virtual async Task<IEnumerable<TEntity>> Query(string sql, List<SqlParameter> parms, CommandType cmdType = CommandType.Text)
         {
             var _db = GetMovieDbContext();
             //存储过程（exec getActionUrlId @name,@ID）
@@ -77,28 +77,28 @@ namespace M.Repository.Implements
 
         }
 
-        public async Task<bool> Add(TEntity entity)
+        public virtual async Task<bool> Add(TEntity entity)
         {
             var _db = GetMovieDbContext();
             await _db.Set<TEntity>().AddAsync(entity);
             return await _db.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> Add(List<TEntity> Entites)
+        public virtual async Task<bool> Add(List<TEntity> Entites)
         {
             var _db = GetMovieDbContext();
             await _db.Set<TEntity>().AddRangeAsync(Entites);
             return await _db.SaveChangesAsync() == Entites.Count;
         }
 
-        public async Task<bool> Delete(TEntity Entity)
+        public virtual async Task<bool> Delete(TEntity Entity)
         {
             var _db = GetMovieDbContext();
             _db.Set<TEntity>().Remove(Entity);
             return await _db.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> Delete(Expression<Func<TEntity, bool>> exp)
+        public virtual async Task<bool> Delete(Expression<Func<TEntity, bool>> exp)
         {
             var _db = GetMovieDbContext();
             var array = _db.Set<TEntity>().Where(exp).ToList();
@@ -110,30 +110,30 @@ namespace M.Repository.Implements
             return await _db.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> Update(TEntity Entity)
+        public virtual async Task<bool> Update(TEntity Entity)
         {
             var _db = GetMovieDbContext();
             _db.Set<TEntity>().Update(Entity);
             return await _db.SaveChangesAsync() > 0;
         }
-        public async Task<TEntity> GetEntity(Expression<Func<TEntity, bool>> where)
+        public virtual async Task<TEntity> GetEntity(Expression<Func<TEntity, bool>> where)
         {
             var _db = GetMovieDbContext();
             return await _db.Set<TEntity>().Where(where).AsNoTracking().FirstOrDefaultAsync();
         }
-        public async Task<IEnumerable<TEntity>> GetEntities(Expression<Func<TEntity, bool>> where)
+        public virtual async Task<IEnumerable<TEntity>> GetEntities(Expression<Func<TEntity, bool>> where)
         {
             var _db = GetMovieDbContext();
             return await _db.Set<TEntity>().Where(where).AsNoTracking().ToListAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> GetEntitiesForPaging(int Page, int pageSize, Expression<Func<TEntity, bool>> where)
+        public virtual async Task<IEnumerable<TEntity>> GetEntitiesForPaging(int Page, int pageSize, Expression<Func<TEntity, bool>> where)
         {
             var _db = GetMovieDbContext();
             return await _db.Set<TEntity>().Where(where).Skip((Page - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> GetEntitiesForPaging<TKey>(int page, int pageSize, Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, TKey>> order, bool isAsc = true)
+        public virtual async Task<IEnumerable<TEntity>> GetEntitiesForPaging<TKey>(int page, int pageSize, Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, TKey>> order, bool isAsc = true)
         {
             var _db = GetMovieDbContext();
             if (isAsc)
@@ -146,7 +146,7 @@ namespace M.Repository.Implements
             }
         }
 
-        public async Task<bool> Update(TEntity entity, params string[] propertyNames)
+        public virtual async Task<bool> Update(TEntity entity, params string[] propertyNames)
         {
             var _db = GetMovieDbContext();
             //3.1.1 将对象添加到EF中

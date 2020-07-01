@@ -22,6 +22,7 @@ namespace M.Repository.Context
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<UserRoleRelation> UserRoleRelation { get; set; }
+        public virtual DbSet<RefreshToken> RefreshToken { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -206,9 +207,9 @@ namespace M.Repository.Context
 
                 entity.Property(e => e.UserName).HasMaxLength(61);
 
-                entity.HasMany(d => d.UserRoleRelation)
-                    .WithOne(p => p.User)
-                    .HasForeignKey(p=>p.UserId);
+                //entity.HasMany(d => d.UserRoleRelation)
+                //    .WithOne(p => p.User)
+                //    .HasForeignKey(p=>p.UserId);
             });
 
             modelBuilder.Entity<UserRole>(entity =>

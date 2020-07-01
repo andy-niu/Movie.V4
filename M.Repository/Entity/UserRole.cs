@@ -5,10 +5,10 @@ namespace M.Repository.Entity
 {
     public partial class UserRole : ITrackable
     {
-        public UserRole()
-        {
-            UserRoleRelation = new HashSet<UserRoleRelation>();
-        }
+        //public UserRole()
+        //{
+        //    UserRoleRelation = new HashSet<UserRoleRelation>();
+        //}
 
         public Guid RoleId { get; set; }
         public string Name { get; set; }

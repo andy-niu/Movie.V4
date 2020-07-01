@@ -31,14 +31,14 @@
         var key = DbHelper.GetPrimaryKey(columns);
 		manager.StartBlock("UT"+tableName+"Repository.cs",OutputPath1);
 	   #>
-using M.Repository.Implements;
+using <#=config.NameSpace#>.Repository.Implements;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-namespace M.Nunit
+namespace <#=config.NameSpace#>.Nunit
 {
     class UT<#=tableName#>Repository
     {

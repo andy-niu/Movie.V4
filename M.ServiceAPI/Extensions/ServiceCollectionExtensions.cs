@@ -50,6 +50,7 @@ namespace M.ServiceAPI.Extensions
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
             //add services
             services.AddScoped<IMovieCommentService, MovieCommentService>();

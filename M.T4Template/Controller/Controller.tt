@@ -17,7 +17,7 @@
 <# 
 	var manager = new Manager(Host, GenerationEnvironment, true);
 	var OutputPath1 = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Host.TemplateFile+"..")+"..")+"..");
-	OutputPath1=Path.Combine(OutputPath1,"M.ServiceAPI/Controllers/");
+	OutputPath1=Path.Combine(OutputPath1,config.NameSpace+".ServiceAPI/Controllers/");
 	if (!Directory.Exists(OutputPath1))
 	{
 	    Directory.CreateDirectory(OutputPath1);
@@ -28,14 +28,14 @@
 		 var tableName=item.ToString();
 		manager.StartBlock(tableName+"Controller.cs",OutputPath1);//文件名
 	   #>
-using M.Model;
-using M.Repository.Entity;
-using M.Service.Interfaces;
+using <#=config.NameSpace#>.Model;
+using <#=config.NameSpace#>.Repository.Entity;
+using <#=config.NameSpace#>.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
-namespace M.ServiceAPI.Controllers
+namespace <#=config.NameSpace#>.ServiceAPI.Controllers
 {
     [ApiVersion("1.0"), ApiController, Consumes("application/json"), Route("api/v{version:apiVersion}/[controller]")]
     public class <#=tableName#>Controller : ControllerBase

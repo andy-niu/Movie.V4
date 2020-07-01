@@ -17,7 +17,7 @@
 <# 
 	var manager = new Manager(Host, GenerationEnvironment, true);
 	var OutputPath1 = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Host.TemplateFile+"..")+"..")+"..");
-	OutputPath1=Path.Combine(OutputPath1,"M.Service/Interfaces/");
+	OutputPath1=Path.Combine(OutputPath1,config.NameSpace+".Service/Interfaces/");
 	if (!Directory.Exists(OutputPath1))
 	{
 	    Directory.CreateDirectory(OutputPath1);
@@ -28,7 +28,7 @@
 		 var tableName=item.ToString();
 		manager.StartBlock("I"+tableName+"Service.cs",OutputPath1);//文件名
 	   #>
-namespace M.Service.Interfaces
+namespace <#=config.NameSpace#>.Service.Interfaces
 {
 	///<summary>
 	///<#=tableName#>

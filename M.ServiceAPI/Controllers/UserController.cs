@@ -112,16 +112,24 @@ namespace M.ServiceAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest model)
+        public async Task<ActionResult<AuthenticateResponse>> Authenticate([FromBody] AuthenticateRequest model)
         {
-            var response = await _service.Authenticate(model, ipAddress());
+            if (User.Identity.IsAuthenticated)
+            {
+                var response = await _service.Authenticate(model, ipAddress());
 
-            if (response == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+                if (response == null)
+                    return BadRequest(new { message = "Username or password is incorrect" });
 
-            setTokenCookie(response.RefreshToken);
+                setTokenCookie(response.RefreshToken);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            else
+            {
+                return Ok("");
+            }
+            
         }
 
         [AllowAnonymous]

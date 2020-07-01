@@ -22,18 +22,24 @@ namespace M.Service.Implements
     public class UserService : BaseService<User>, IUserService
     {
         private readonly Repository.Interfaces.IUserRepository _repository;
+        private readonly Repository.Interfaces.IRefreshTokenRepository _refreshTokenRepository;
         private readonly Models.Options.JwtOptions _jwtOptions;
-        public UserService(ILogger<UserService> logger, IMemoryCache cache, Repository.Interfaces.IBaseRepository<User> repository, IOptions<Models.Options.JwtOptions> jwtOptions) : base(cache)
+        public UserService(ILogger<UserService> logger, 
+            IMemoryCache cache, 
+            Repository.Interfaces.IUserRepository repository,
+            Repository.Interfaces.IRefreshTokenRepository  refreshTokenRepository,
+            IOptions<Models.Options.JwtOptions> jwtOptions) : base(cache)
         {
-            base._baseRepository = repository;
+            base._baseRepository = repository as Repository.Interfaces.IBaseRepository<User>;
             base._logger = logger;
-            _repository = repository as Repository.Interfaces.IUserRepository;
+            _repository = repository;
             _jwtOptions = jwtOptions.Value;
+            _refreshTokenRepository = refreshTokenRepository;
         }
 
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest model, string ipAddress)
         {
-            var user = await _baseRepository.GetEntity(x => x.UserName == model.Username && x.Password == model.Password);
+            var user = await _repository.GetEntity(x => x.UserName == model.Username && x.Password == model.Password);
 
             // return null if user not found
             if (user == null) return null;
@@ -42,10 +48,15 @@ namespace M.Service.Implements
             var jwtToken = generateJwtToken(user);
             var refreshToken = generateRefreshToken(ipAddress);
 
+            var result2 = await _repository.Update(user);
+
             // save refresh token
             user.RefreshTokens.Add(refreshToken);
+            // RevokeToken by userid
+            await _refreshTokenRepository.UpdateIsActive(refreshToken);
 
-            var result = await _repository.Update(user);
+            var result = await _refreshTokenRepository.Add(refreshToken);
+
             if (result)
             {
                 return new AuthenticateResponse(user, jwtToken, refreshToken.Token);
@@ -79,10 +90,12 @@ namespace M.Service.Implements
             refreshToken.RevokedByIp = ipAddress;
             refreshToken.ReplacedByToken = newRefreshToken.Token;
             user.RefreshTokens.Add(newRefreshToken);
+
+            var result = await _refreshTokenRepository.Update(refreshToken);
             //_context.Update(user);
             //_context.SaveChanges();
 
-            var result = await _repository.Update(user);
+            var result2 = await _repository.Update(user);
             if (!result)
             {
                 return null;
@@ -110,8 +123,9 @@ namespace M.Service.Implements
             refreshToken.RevokedByIp = ipAddress;
             //_context.Update(user);
             //_context.SaveChanges();
+            var result = await _refreshTokenRepository.UpdateIsActive(refreshToken);
 
-            var result = await _repository.Update(user);
+            var result2 = await _repository.Update(user);
             if (!result)
             {
                 return false;

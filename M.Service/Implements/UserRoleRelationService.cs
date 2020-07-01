@@ -11,11 +11,11 @@ namespace M.Service.Implements
     public class UserRoleRelationService : BaseService<UserRoleRelation>, IUserRoleRelationService
     {
         private readonly Repository.Interfaces.IUserRoleRelationRepository _repository;
-        public UserRoleRelationService(ILogger<UserRoleRelationService> logger, IMemoryCache cache, Repository.Interfaces.IBaseRepository<UserRoleRelation> repository) : base(cache)
+        public UserRoleRelationService(ILogger<UserRoleRelationService> logger, IMemoryCache cache, Repository.Interfaces.IUserRoleRelationRepository repository) : base(cache)
         {
-            base._baseRepository = repository;
+            base._baseRepository = repository as Repository.Interfaces.IBaseRepository<UserRoleRelation>; 
             base._logger = logger;
-            _repository = repository as Repository.Interfaces.IUserRoleRelationRepository;
+            _repository = repository;
         }
     }
 }

@@ -17,7 +17,7 @@
 <# 
 	var manager = new Manager(Host, GenerationEnvironment, true);
 	var OutputPath1 = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Host.TemplateFile+"..")+"..")+"..");
-	OutputPath1=Path.Combine(OutputPath1,"M.Repository/Tobe/Implements/");
+	OutputPath1=Path.Combine(OutputPath1,config.NameSpace+".Repository/Tobe/Implements/");
 	if (!Directory.Exists(OutputPath1))
 	{
 	    Directory.CreateDirectory(OutputPath1);
@@ -28,10 +28,10 @@
 		 var tableName=item.ToString();
 		manager.StartBlock(tableName+"Repository.cs",OutputPath1);//文件名
 	   #>
-using M.Repository.Interface;
-using Microsoft.Extensions.Logging;
+using <#=config.NameSpace#>.Repository.Interface;
+using <#=config.NameSpace#>icrosoft.Extensions.Logging;
 
-namespace M.Repository.Implement
+namespace <#=config.NameSpace#>.Repository.Implement
 {
     ///<summary>
     ///<#=tableName#>

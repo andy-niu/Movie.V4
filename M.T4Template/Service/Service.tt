@@ -17,7 +17,7 @@
 <# 
 	var manager = new Manager(Host, GenerationEnvironment, true);
 	var OutputPath1 = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Host.TemplateFile+"..")+"..")+"..");
-	OutputPath1=Path.Combine(OutputPath1,"M.Service/Implements/");
+	OutputPath1=Path.Combine(OutputPath1,config.NameSpace+".Service/Implements/");
 	if (!Directory.Exists(OutputPath1))
 	{
 	    Directory.CreateDirectory(OutputPath1);
@@ -28,12 +28,12 @@
 		 var tableName=item.ToString();
 		manager.StartBlock(tableName+"Service.cs",OutputPath1);//文件名
 	   #>
-using M.Repository.Entity;
-using M.Service.Interfaces;
+using <#=config.NameSpace#>.Repository.Entity;
+using <#=config.NameSpace#>.Service.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
-namespace M.Service.Implements
+namespace <#=config.NameSpace#>.Service.Implements
 {
 	///<summary>
 	///<#=tableName#>
@@ -41,11 +41,11 @@ namespace M.Service.Implements
     public class <#=tableName#>Service : BaseService<<#=tableName#>>, I<#=tableName#>Service
     {
         private readonly Repository.Interfaces.I<#=tableName#>Repository _repository;
-        public <#=tableName#>Service(ILogger<<#=tableName#>Service> logger, IMemoryCache cache, Repository.Interfaces.IBaseRepository<<#=tableName#>> repository) : base(cache)
+        public <#=tableName#>Service(ILogger<<#=tableName#>Service> logger, IMemoryCache cache,Repository.Interfaces.I<#=tableName#>Repository  repository) : base(cache)
         {
-            base._baseRepository = repository;
+            base._baseRepository = repository as Repository.Interfaces.IBaseRepository<<#=tableName#>>;
             base._logger = logger;
-            _repository = repository as Repository.Interfaces.I<#=tableName#>Repository;
+            _repository = repository;
         }
     }
 }
