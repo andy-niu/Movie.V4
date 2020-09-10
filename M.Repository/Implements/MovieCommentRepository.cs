@@ -1,5 +1,11 @@
+using M.Repository.Entity;
 using M.Repository.Interfaces;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace M.Repository.Implements
 {
@@ -13,5 +19,6 @@ namespace M.Repository.Implements
         {
             this._logger = logger;
         }
+
     }
 }	 

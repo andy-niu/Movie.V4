@@ -24,8 +24,8 @@ namespace M.Service.Implements
         private readonly Repository.Interfaces.IUserRepository _repository;
         private readonly Repository.Interfaces.IRefreshTokenRepository _refreshTokenRepository;
         private readonly Models.Options.JwtOptions _jwtOptions;
-        public UserService(ILogger<UserService> logger, 
-            IMemoryCache cache, 
+        public UserService(ILogger<UserService> logger,
+            Microsoft.Extensions.Caching.Distributed.IDistributedCache cache, 
             Repository.Interfaces.IUserRepository repository,
             Repository.Interfaces.IRefreshTokenRepository  refreshTokenRepository,
             IOptions<Models.Options.JwtOptions> jwtOptions) : base(cache)

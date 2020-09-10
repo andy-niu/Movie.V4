@@ -11,7 +11,7 @@ namespace M.Service.Implements
     public class UserRoleService : BaseService<UserRole>, IUserRoleService
     {
         private readonly Repository.Interfaces.IUserRoleRepository _repository;
-        public UserRoleService(ILogger<UserRoleService> logger, IMemoryCache cache, Repository.Interfaces.IUserRoleRepository repository) : base(cache)
+        public UserRoleService(ILogger<UserRoleService> logger, Microsoft.Extensions.Caching.Distributed.IDistributedCache cache, Repository.Interfaces.IUserRoleRepository repository) : base(cache)
         {
             base._baseRepository = repository as Repository.Interfaces.IBaseRepository<UserRole>;
             base._logger = logger;

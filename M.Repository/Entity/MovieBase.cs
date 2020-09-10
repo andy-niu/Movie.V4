@@ -34,5 +34,9 @@ namespace M.Repository.Entity
         public decimal? DoubanScore { get; set; }
 
         public virtual ICollection<MovieComment> MovieComment { get; set; }
+
+        public virtual ICollection<MovieAttributes> Regions { get; set; }
+
+        public virtual ICollection<MovieAttributes> Types { get; set; }
     }
 }

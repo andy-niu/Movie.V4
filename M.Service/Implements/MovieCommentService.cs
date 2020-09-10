@@ -11,7 +11,7 @@ namespace M.Service.Implements
     public class MovieCommentService : BaseService<MovieComment>, IMovieCommentService
     {
         private readonly Repository.Interfaces.IMovieCommentRepository _repository;
-        public MovieCommentService(ILogger<MovieCommentService> logger, IMemoryCache cache, Repository.Interfaces.IMovieCommentRepository repository) : base(cache)
+        public MovieCommentService(ILogger<MovieCommentService> logger, Microsoft.Extensions.Caching.Distributed.IDistributedCache cache, Repository.Interfaces.IMovieCommentRepository repository) : base(cache)
         {
             base._baseRepository = repository as Repository.Interfaces.IBaseRepository<MovieComment>;
             base._logger = logger;
